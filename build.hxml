@@ -2,4 +2,4 @@
 -cp src
 -D analyzer-optimize
 -main Main
---js bin/app.js
+--js docs/app.js
