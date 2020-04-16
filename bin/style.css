@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    transition-duration: 200ms;
+}
+
+body {
+    background-image: url('images/bg1.png');
+    background-size: 100vw 100vh;
+    transition-duration: 2000ms;
+    display: flex;
+    flex-direction: column;
+}
+
+.audio.playing {
+    background-color: white;
+    background-image: url('images/play_black.png');
+    color: black;
+} 
+
+.audio.playing:hover {
+    background-color: white;
+    background-image: url('images/stop_black.png');
+    color: black;
+}
+
+.audio {
+    background-color: rgba(0, 0, 0, 0.25);
+    background-position-x: 8px;
+    background-position-y: center;
+    background-size: 24px;
+    background-repeat: no-repeat;
+    color: white;
+    margin: 8px 0;
+    border-radius: 12px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    padding-left: 32px;
+}
+
+.audio:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: url('images/play_white.png');
+}
+
+.tracklist {
+    margin: 32px 24px;
+    height: calc(100vh - 160px);
+}
+
+.pomodoro {
+    border-top: 2px solid rgba(0, 0, 0, 0.25);
+    width: 80%;
+    height: 90px;
+    margin: auto;
+}

@@ -1,0 +1,5 @@
+-lib zerolib
+-cp src
+-D analyzer-optimize
+-main Main
+--js bin/app.js
