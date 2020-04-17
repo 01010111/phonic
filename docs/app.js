@@ -71,10 +71,6 @@ Main.play = function(a,e) {
 	e.classList.add("playing");
 	Main.active_audio = a;
 	Main.active_audio_div = e;
-	Main.timer = zero_utilities_Timer.get(10,function() {
-		Main.stop();
-		return;
-	});
 };
 Main.stop = function() {
 	if(Main.active_audio != null) {

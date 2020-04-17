@@ -69,7 +69,6 @@ class Main {
 		e.classList.add('playing');
 		active_audio = a;
 		active_audio_div = e;
-		timer = Timer.get(10, () -> stop());
 	}
 
 	static function stop() {
