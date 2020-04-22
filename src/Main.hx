@@ -1,13 +1,3 @@
-import js.html.DivElement;
-import js.html.AudioElement;
-import js.Browser.document as document;
-import zero.utilities.Timer;
-
-using zero.extensions.Tools;
-using util.HrefTools;
-using haxe.Json;
-using Math;
-
 class Main {
 
 	static var tracklist_div:DivElement;
@@ -30,6 +20,7 @@ class Main {
 		tracklist_div = cast document.getElementById('tracklist');
 		'audio.json'.fetch(process_json);
 		util.UpdateManager.update(0);
+		util.Pomodoro.init(45);
 	}
 
 	static function process_json(audio_data:String) {
@@ -71,21 +62,11 @@ class Main {
 		active_audio_div = e;
 	}
 
-	static function stop() {
+	public static function stop() {
 		if (active_audio != null) active_audio.pause();
 		if (active_audio_div != null) active_audio_div.classList.remove('playing');
 		active_audio = null;
 		active_audio_div = null;
-	}
-
-	static function parse_remaining() {
-		if (timer == null) return '';
-		var t = timer.get_remaining().round();
-		var min = (t/60).floor();
-		var sec = t % 60;
-		var m = min < 10 ? '0$min' : '$min';
-		var s = sec < 10 ? '0$sec' : '$sec';
-		return '$m:$s';
 	}
 
 }

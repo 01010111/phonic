@@ -10,6 +10,7 @@ class UpdateManager {
     public static function update(?_) {
         var dt = get_dt(get_time());
         Timer.update(dt);
+        'update'.dispatch(dt);
         Browser.window.requestAnimationFrame(update);
     }
 

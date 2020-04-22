@@ -1,0 +1,32 @@
+package util;
+
+class TimerUtil {
+
+    static var timer:Timer;
+    
+    public static function start(time:Int, fn:Void -> Void) {
+        update.unlisten('update');
+        timer = Timer.get(time, () -> fn());
+        update.listen('update');
+    }
+
+    public static function pause() if (timer != null) timer.pause();
+    public static function resume() if (timer != null) timer.unpause();
+    public static function cancel() if (timer != null) timer.cancel();
+
+    static function update(?dt:Float) {
+        if (timer == null || !timer.active) return;
+        Pomodoro.timer_text.value = parse_remaining();
+    }
+
+    static function parse_remaining() {
+		if (timer == null) return '';
+		var t = timer.get_remaining().round();
+		var min = (t/60).floor();
+		var sec = t % 60;
+		var m = min < 10 ? '0$min' : '$min';
+		var s = sec < 10 ? '0$sec' : '$sec';
+		return '$m:$s';
+	}
+
+}
