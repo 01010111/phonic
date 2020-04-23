@@ -58,9 +58,16 @@ body {
     margin: auto;
 }
 
+.pomo-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 120px;
+    margin: 0 auto;
+}
+
 .timer {
     display: flex;
-    align-items: center;
     margin: 32px auto;
     width: 80px;
     height: 24px;
@@ -78,4 +85,35 @@ body {
 
 .timer :focus {
     outline: none;
+}
+
+.pomo-start {
+    background-image: url('images/play_black.png');
+    background-size: 32px;
+    background-position: -8px;
+    background-repeat: no-repeat;
+    min-width: 24;
+    height: 24;
+    margin: 0 4px;
+    opacity: 0.25;
+    cursor: pointer;
+}
+
+.pomo-start:hover {
+    opacity: 1;
+}
+
+.pomo-start.active {
+    background-image: url('images/pause_black.png');
+}
+
+.pomo-icon {
+    background-image: url('images/timer_icon.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px;
+    min-width: 24;
+    height: 24;
+    margin: 0 4px;
+    opacity: 0.5;
 }

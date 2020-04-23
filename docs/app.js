@@ -329,20 +329,25 @@ util_Pomodoro.init = function(v) {
 		util_Pomodoro.on_input(e2);
 		return;
 	});
+	util_Pomodoro.play_btn = window.document.getElementById("pomo-start");
+	util_Pomodoro.play_btn.onclick = function(e3) {
+		util_Pomodoro.play_btn_click(e3);
+		return;
+	};
 	util_Pomodoro.last = "" + v;
 };
 util_Pomodoro.on_focus = function(e) {
-	haxe_Log.trace("focus",{ fileName : "src/util/Pomodoro.hx", lineNumber : 21, className : "util.Pomodoro", methodName : "on_focus", customParams : [e]});
+	haxe_Log.trace("focus",{ fileName : "src/util/Pomodoro.hx", lineNumber : 26, className : "util.Pomodoro", methodName : "on_focus", customParams : [e]});
 	util_TimerUtil.cancel();
 	util_Pomodoro.parse_input();
 };
 util_Pomodoro.on_input = function(e) {
-	haxe_Log.trace("input",{ fileName : "src/util/Pomodoro.hx", lineNumber : 27, className : "util.Pomodoro", methodName : "on_input", customParams : [e]});
+	haxe_Log.trace("input",{ fileName : "src/util/Pomodoro.hx", lineNumber : 32, className : "util.Pomodoro", methodName : "on_input", customParams : [e]});
 	util_Pomodoro.parse_input();
 };
 util_Pomodoro.parse_input = function() {
 	var n = Std.parseInt(util_Pomodoro.timer_text.value);
-	haxe_Log.trace(n,{ fileName : "src/util/Pomodoro.hx", lineNumber : 33, className : "util.Pomodoro", methodName : "parse_input"});
+	haxe_Log.trace(n,{ fileName : "src/util/Pomodoro.hx", lineNumber : 38, className : "util.Pomodoro", methodName : "parse_input"});
 	if(n == null && util_Pomodoro.timer_text.value.length == 0) {
 		util_Pomodoro.last = "0";
 	} else {
@@ -351,18 +356,44 @@ util_Pomodoro.parse_input = function() {
 	util_Pomodoro.timer_text.value = util_Pomodoro.last;
 };
 util_Pomodoro.on_blur = function(e) {
-	haxe_Log.trace("blur",{ fileName : "src/util/Pomodoro.hx", lineNumber : 40, className : "util.Pomodoro", methodName : "on_blur", customParams : [e]});
+	haxe_Log.trace("blur",{ fileName : "src/util/Pomodoro.hx", lineNumber : 45, className : "util.Pomodoro", methodName : "on_blur", customParams : [e]});
 	util_Pomodoro.timer_text.value = "" + util_Pomodoro.last + ":00";
 	util_Pomodoro.start();
 };
+util_Pomodoro.play_btn_click = function(e) {
+	if(util_TimerUtil.get_active()) {
+		util_Pomodoro.stop();
+	} else {
+		util_Pomodoro.start();
+	}
+};
 util_Pomodoro.start = function() {
-	util_TimerUtil.start(Std.parseInt(util_Pomodoro.timer_text.value) * 60,util_Pomodoro.stop);
+	var m = util_Pomodoro.timer_text.value.split(":")[0];
+	var s = util_Pomodoro.timer_text.value.split(":")[1];
+	var t = 0;
+	if(Std.parseInt(m) != null) {
+		t = Std.parseInt(m) * 60;
+	}
+	if(Std.parseInt(s) != null) {
+		t += Std.parseInt(s);
+	}
+	util_TimerUtil.start(t,util_Pomodoro.stop);
+	util_Pomodoro.play_btn.classList.add("active");
 };
 util_Pomodoro.stop = function() {
+	util_TimerUtil.cancel();
 	Main.stop();
+	util_Pomodoro.play_btn.classList.remove("active");
 };
 var util_TimerUtil = function() { };
 util_TimerUtil.__name__ = true;
+util_TimerUtil.get_active = function() {
+	if(util_TimerUtil.timer != null) {
+		return util_TimerUtil.timer.get_active();
+	} else {
+		return false;
+	}
+};
 util_TimerUtil.start = function(time,fn) {
 	zero_utilities_EventBus.unlisten(util_TimerUtil.update,"update");
 	util_TimerUtil.timer = zero_utilities_Timer.get(time,function() {
