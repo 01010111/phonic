@@ -24,6 +24,7 @@ class Pomodoro {
 
 	static function on_focus(e:FocusEvent) {
 		trace('focus', e);
+		pause();
 		TimerUtil.cancel();
 		parse_input();
 	}
@@ -44,11 +45,10 @@ class Pomodoro {
 	static function on_blur(e:FocusEvent) {
 		trace('blur', e);
 		timer_text.value = '$last:00';
-		start();
 	}
 
 	static function play_btn_click(e) {
-		TimerUtil.active ? stop() : start();
+		TimerUtil.active ? pause() : start();
 	}
 
 	static function start() {
@@ -61,6 +61,11 @@ class Pomodoro {
 		play_btn.classList.add('active');
 	}
 
+	public static function pause() {
+		TimerUtil.pause();
+		play_btn.classList.remove('active');
+	}
+	
 	public static function stop() {
 		TimerUtil.cancel();
 		Main.stop();

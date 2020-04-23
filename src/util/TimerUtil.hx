@@ -5,7 +5,7 @@ class TimerUtil {
     static var timer:Timer;
 
     public static var active(get, never):Bool;
-    static function get_active() return timer != null && timer.active;
+    static function get_active() return timer != null && timer.active && !timer.paused;
     
     public static function start(time:Int, fn:Void -> Void) {
         update.unlisten('update');
