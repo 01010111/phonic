@@ -115,5 +115,5 @@ typedef AudioData = {
 
 typedef ConfigObject = {
 	?tracklist:Array<AudioData>,
-	?pomo_default_time:Int,
+	?default_pomo_time:Int,
 }
