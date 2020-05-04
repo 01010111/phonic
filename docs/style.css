@@ -1,119 +1,145 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    transition-duration: 200ms;
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	transition-duration: 200ms;
 }
 
 body {
-    background-image: url('images/bg1.png');
-    background-size: 100vw 100vh;
-    transition-duration: 2000ms;
-    display: flex;
-    flex-direction: column;
+	background-image: url('images/bg1.png');
+	background-size: 100vw 100vh;
+	transition-duration: 2000ms;
+	display: flex;
+	flex-direction: column;
 }
 
 .audio.playing {
-    background-color: white;
-    background-image: url('images/play_black.png');
-    color: black;
+	background-color: white;
+	background-image: url('images/play_black.png');
+	color: black;
 } 
 
 .audio.playing:hover {
-    background-color: white;
-    background-image: url('images/stop_black.png');
-    color: black;
+	background-color: white;
+	background-image: url('images/stop_black.png');
+	color: black;
 }
 
 .audio {
-    background-color: rgba(0, 0, 0, 0.25);
-    background-position-x: 8px;
-    background-position-y: center;
-    background-size: 24px;
-    background-repeat: no-repeat;
-    color: white;
-    margin: 8px 0;
-    border-radius: 12px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    padding-left: 32px;
+	background-color: rgba(0, 0, 0, 0.25);
+	background-position-x: 8px;
+	background-position-y: center;
+	background-size: 24px;
+	background-repeat: no-repeat;
+	color: white;
+	margin: 8px 0;
+	border-radius: 12px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	padding-left: 32px;
 }
 
 .audio:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-    background-image: url('images/play_white.png');
+	background-color: rgba(0, 0, 0, 0.5);
+	background-image: url('images/play_white.png');
 }
 
 .tracklist {
-    margin: 32px 24px;
-    height: calc(100vh - 160px);
+	margin: 32px 24px;
 }
 
 .pomodoro {
-    border-top: 2px solid rgba(0, 0, 0, 0.25);
-    width: 80%;
-    height: 90px;
-    margin: auto;
+	border-top: 2px solid rgba(0, 0, 0, 0.25);
+	width: 80%;
+	height: 90px;
+	position: absolute;
+	bottom: 0;
+	left: 10%;
 }
 
 .pomo-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 120px;
-    margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 80%;
+	margin: 0 auto;
 }
 
 .timer {
-    display: flex;
-    margin: 32px auto;
-    width: 80px;
-    height: 24px;
-    background-color: rgba(0, 0, 0, 0.25);
-    border-radius: 12px;
+	display: flex;
+	margin: 32px auto;
+	width: 80px;
+	height: 24px;
+	background-color: rgba(0, 0, 0, 0.25);
+	border-radius: 12px;
 }
 
 .timer input {
-    color: white;
-    text-align: center;
-    width: 80px;
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
+	color: white;
+	text-align: center;
+	width: 80px;
+	background-color: rgba(0, 0, 0, 0);
+	border: none;
 }
 
 .timer :focus {
-    outline: none;
+	outline: none;
 }
 
 .pomo-start {
-    background-image: url('images/play_black.png');
-    background-size: 32px;
-    background-position: -8px;
-    background-repeat: no-repeat;
-    min-width: 24;
-    height: 24;
-    margin: 0 4px;
-    opacity: 0.25;
-    cursor: pointer;
+	background-image: url('images/play_black.png');
+	background-size: 32px;
+	background-position: -8px;
+	background-repeat: no-repeat;
+	min-width: 24;
+	height: 24;
+	margin: 0 4px;
+	opacity: 0.25;
+	cursor: pointer;
 }
 
 .pomo-start:hover {
-    opacity: 1;
+	opacity: 1;
 }
 
 .pomo-start.active {
-    background-image: url('images/pause_black.png');
+	background-image: url('images/pause_black.png');
 }
 
 .pomo-icon {
-    background-image: url('images/timer_icon.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 16px;
-    min-width: 24;
-    height: 24;
-    margin: 0 4px;
-    opacity: 0.5;
+	background-image: url('images/timer_icon.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 16px;
+	min-width: 24;
+	height: 24;
+	margin: 0 4px;
+	opacity: 0.5;
+}
+
+.info {
+	margin: 24px 16px 0 16px;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	padding: 16px;
+	border-radius: 8px;
+}
+
+.info-close {
+	position: absolute;
+	top: 16px;
+	right: 8px;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
+	color: white;
+	background-color: black;
+	text-align: center;
+	cursor: pointer;
+}
+
+.hidden {
+	display: none;
 }

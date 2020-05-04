@@ -40,11 +40,17 @@ var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
 };
-Main.init = $hx_exports["Main"]["init"] = function() {
+Main.init = $hx_exports["Main"]["init"] = function(config) {
+	if(config != null) {
+		JSON.parse(config);
+	}
+	if(window.localStorage.getItem("last") != null) {
+		Main.last = Std.parseInt(window.localStorage.getItem("last"));
+	}
 	Main.tracklist_div = window.document.getElementById("tracklist");
 	util_HrefTools.fetch("audio.json",Main.process_json);
 	util_UpdateManager.update(0);
-	util_Pomodoro.init(45);
+	util_Info.init();
 };
 Main.process_json = function(audio_data) {
 	Main.data = JSON.parse(audio_data);
@@ -55,6 +61,19 @@ Main.process_json = function(audio_data) {
 		var a = _g1[_g];
 		++_g;
 		Main.tracklist_div.appendChild(Main.get_sound(a.src,a.title,id++));
+	}
+	Main.load();
+};
+Main.load = function() {
+	util_Pomodoro.init(45);
+	var info_state = window.localStorage.getItem("info_state");
+	var was_active = window.localStorage.getItem("active");
+	if(info_state == null) {
+		util_Info.show();
+	}
+	if(was_active == "true") {
+		Main.play_last();
+		util_Pomodoro.check_persistence();
 	}
 };
 Main.get_sound = function(src,title,id) {
@@ -72,6 +91,7 @@ Main.get_sound = function(src,title,id) {
 		}
 		return window.document.body.style.backgroundImage = "url(\"images/bg" + id % 4 + ".png\")";
 	};
+	Main.audio_divs.push(e);
 	return e;
 };
 Main.get_audio_element = function(src) {
@@ -83,10 +103,28 @@ Main.get_audio_element = function(src) {
 };
 Main.play = function(a,e) {
 	a.currentTime = 0;
-	a.play();
 	e.classList.add("playing");
 	Main.active_audio = a;
 	Main.active_audio_div = e;
+	a.onpause = function() {
+		window.localStorage.setItem("active","false");
+		return;
+	};
+	window.localStorage.setItem("last","" + Main.audio.indexOf(a));
+	window.localStorage.setItem("active","true");
+	a.play().catch(function(e1) {
+		haxe_Log.trace(e1,{ fileName : "src/Main.hx", lineNumber : 87, className : "Main", methodName : "play"});
+		window.parent.addEventListener("click",Main.play_on_click);
+		return;
+	});
+};
+Main.play_on_click = function() {
+	Main.active_audio.play();
+	window.parent.removeEventListener("click",Main.play_on_click);
+};
+Main.play_last = function() {
+	Main.stop();
+	Main.play(Main.audio[Main.last],Main.audio_divs[Main.last]);
 };
 Main.stop = function() {
 	if(Main.active_audio != null) {
@@ -313,6 +351,20 @@ util_HrefTools.fetch = function(href,then) {
 	};
 	request.send();
 };
+var util_Info = function() { };
+util_Info.__name__ = true;
+util_Info.init = function() {
+	util_Info.info_box = window.document.getElementById("info");
+	util_Info.close_btn = window.document.getElementById("info-close");
+	util_Info.close_btn.onclick = util_Info.hide;
+};
+util_Info.show = function() {
+	util_Info.info_box.classList.remove("hidden");
+};
+util_Info.hide = function() {
+	util_Info.info_box.classList.add("hidden");
+	window.localStorage.setItem("info_state","hidden");
+};
 var util_Pomodoro = function() { };
 util_Pomodoro.__name__ = true;
 util_Pomodoro.init = function(v) {
@@ -336,19 +388,27 @@ util_Pomodoro.init = function(v) {
 	};
 	util_Pomodoro.last = "" + v;
 };
+util_Pomodoro.check_persistence = function() {
+	var was_active = window.localStorage.getItem("timer_active");
+	var last_time = window.localStorage.getItem("timer_amt");
+	if(was_active == "true") {
+		util_Pomodoro.timer_text.value = last_time;
+		util_Pomodoro.start();
+	}
+};
 util_Pomodoro.on_focus = function(e) {
-	haxe_Log.trace("focus",{ fileName : "src/util/Pomodoro.hx", lineNumber : 26, className : "util.Pomodoro", methodName : "on_focus", customParams : [e]});
+	haxe_Log.trace("focus",{ fileName : "src/util/Pomodoro.hx", lineNumber : 35, className : "util.Pomodoro", methodName : "on_focus", customParams : [e]});
 	util_Pomodoro.pause();
 	util_TimerUtil.cancel();
 	util_Pomodoro.parse_input();
 };
 util_Pomodoro.on_input = function(e) {
-	haxe_Log.trace("input",{ fileName : "src/util/Pomodoro.hx", lineNumber : 33, className : "util.Pomodoro", methodName : "on_input", customParams : [e]});
+	haxe_Log.trace("input",{ fileName : "src/util/Pomodoro.hx", lineNumber : 42, className : "util.Pomodoro", methodName : "on_input", customParams : [e]});
 	util_Pomodoro.parse_input();
 };
 util_Pomodoro.parse_input = function() {
 	var n = Std.parseInt(util_Pomodoro.timer_text.value);
-	haxe_Log.trace(n,{ fileName : "src/util/Pomodoro.hx", lineNumber : 39, className : "util.Pomodoro", methodName : "parse_input"});
+	haxe_Log.trace(n,{ fileName : "src/util/Pomodoro.hx", lineNumber : 48, className : "util.Pomodoro", methodName : "parse_input"});
 	if(n == null && util_Pomodoro.timer_text.value.length == 0) {
 		util_Pomodoro.last = "0";
 	} else {
@@ -357,7 +417,7 @@ util_Pomodoro.parse_input = function() {
 	util_Pomodoro.timer_text.value = util_Pomodoro.last;
 };
 util_Pomodoro.on_blur = function(e) {
-	haxe_Log.trace("blur",{ fileName : "src/util/Pomodoro.hx", lineNumber : 46, className : "util.Pomodoro", methodName : "on_blur", customParams : [e]});
+	haxe_Log.trace("blur",{ fileName : "src/util/Pomodoro.hx", lineNumber : 55, className : "util.Pomodoro", methodName : "on_blur", customParams : [e]});
 	util_Pomodoro.timer_text.value = "" + util_Pomodoro.last + ":00";
 };
 util_Pomodoro.play_btn_click = function(e) {
@@ -379,15 +439,18 @@ util_Pomodoro.start = function() {
 	}
 	util_TimerUtil.start(t,util_Pomodoro.stop);
 	util_Pomodoro.play_btn.classList.add("active");
+	window.localStorage.setItem("timer_active","true");
 };
 util_Pomodoro.pause = function() {
 	util_TimerUtil.pause();
 	util_Pomodoro.play_btn.classList.remove("active");
+	window.localStorage.setItem("timer_active","false");
 };
 util_Pomodoro.stop = function() {
 	util_TimerUtil.cancel();
 	Main.stop();
 	util_Pomodoro.play_btn.classList.remove("active");
+	window.localStorage.setItem("timer_active","false");
 };
 var util_TimerUtil = function() { };
 util_TimerUtil.__name__ = true;
@@ -426,6 +489,10 @@ util_TimerUtil.update = function(dt) {
 		return;
 	}
 	util_Pomodoro.timer_text.value = util_TimerUtil.parse_remaining();
+	if(util_TimerUtil.last != Math.round(util_TimerUtil.timer.get_remaining())) {
+		window.localStorage.setItem("timer_amt",util_Pomodoro.timer_text.value);
+	}
+	util_TimerUtil.last = Math.round(util_TimerUtil.timer.get_remaining());
 };
 util_TimerUtil.parse_remaining = function() {
 	if(util_TimerUtil.timer == null) {
@@ -3784,6 +3851,10 @@ zero_utilities__$Vec2_Vec2_$Impl_$.equals = function(this1,v) {
 		return false;
 	}
 };
+zero_utilities__$Vec2_Vec2_$Impl_$.in_circle = function(this1,c,r) {
+	var this2 = zero_utilities__$Vec2_Vec2_$Impl_$.subtract(c,zero_utilities__$Vec2_Vec2_$Impl_$.from_array_float(this1));
+	return Math.sqrt(this2[0] * this2[0] + this2[1] * this2[1]) < r;
+};
 zero_utilities__$Vec2_Vec2_$Impl_$.dot = function(this1,v) {
 	return zero_utilities__$Vec2_Vec2_$Impl_$.zero(this1[0] * v[0] + this1[1] * v[1]);
 };
@@ -3796,6 +3867,9 @@ zero_utilities__$Vec2_Vec2_$Impl_$.facing = function(this1,v) {
 zero_utilities__$Vec2_Vec2_$Impl_$.distance = function(this1,v) {
 	var this2 = zero_utilities__$Vec2_Vec2_$Impl_$.subtract(v,zero_utilities__$Vec2_Vec2_$Impl_$.from_array_float(this1));
 	return Math.sqrt(this2[0] * this2[0] + this2[1] * this2[1]);
+};
+zero_utilities__$Vec2_Vec2_$Impl_$.rad_between = function(this1,v) {
+	return Math.atan2(v[1] - this1[1],v[0] - this1[0]);
 };
 zero_utilities__$Vec2_Vec2_$Impl_$.toString = function(this1) {
 	return "x: " + this1[0] + " | y: " + this1[1] + " | length: " + Math.sqrt(this1[0] * this1[0] + this1[1] * this1[1]) + " | angle: " + (Math.atan2(this1[1],this1[0]) * (180 / Math.PI) % 360 + 360) % 360;
@@ -4540,6 +4614,7 @@ Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function()
 js_Boot.__toStr = ({ }).toString;
 Main.audio = [];
 Main.audio_divs = [];
+Main.last = 0;
 Main.gradients = ["linear-gradient(8deg, #1CB5E0 0%, #000851 100%)","linear-gradient(8deg, #9ebd13 0%, #008552 100%)","linear-gradient(8deg, #d53369 0%, #daae51 100%)","linear-gradient(8deg, #0700b8 0%, #00ff88 100%)"];
 util_UpdateManager.last = 0.0;
 zero_utilities__$Vec4_Vec4_$Impl_$.epsilon = 1e-8;

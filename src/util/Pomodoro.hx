@@ -22,6 +22,15 @@ class Pomodoro {
 		last = '$v';
 	}
 
+	public static function check_persistence() {
+		var was_active = window.localStorage.getItem('timer_active');
+		var last_time = window.localStorage.getItem('timer_amt');
+		if (was_active == 'true') {
+			timer_text.value = last_time;
+			start();
+		}
+	}
+
 	static function on_focus(e:FocusEvent) {
 		trace('focus', e);
 		pause();
@@ -59,17 +68,20 @@ class Pomodoro {
 		if (s.parseInt() != null) t += s.parseInt();
 		TimerUtil.start(t, stop);
 		play_btn.classList.add('active');
+		window.localStorage.setItem('timer_active', 'true');
 	}
 
 	public static function pause() {
 		TimerUtil.pause();
 		play_btn.classList.remove('active');
+		window.localStorage.setItem('timer_active', 'false');
 	}
 	
 	public static function stop() {
 		TimerUtil.cancel();
 		Main.stop();
 		play_btn.classList.remove('active');
+		window.localStorage.setItem('timer_active', 'false');
 	}
 
 }

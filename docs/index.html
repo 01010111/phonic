@@ -36,9 +36,9 @@
         }
         .sidebar iframe{
             position: absolute;
-            left: -320px;
+            left: -240px;
             top: 40px;
-            width: 320px;
+            width: 240px;
             height: calc(100vh - 40px);
         }
         .sidebar.active iframe {
@@ -54,7 +54,7 @@
             border-radius: 0 32px 32px 0;
         }
         .tab.active {
-            left: 320px;
+            left: 240px;
         }
     </style>
 </head>
@@ -64,7 +64,7 @@
     </div>
     <div class='overlay' id='overlay'></div>
     <div class='sidebar' id='sidebar' >
-        <iframe src="app.html" frameborder="0"></iframe>
+        <iframe src="app.html" frameborder="0" allow="autoplay"></iframe>
     </div>
     <div class='tab' id='tab'></div>
     <script>
@@ -83,6 +83,14 @@
                 sidebar.classList.remove('active');
                 overlay.classList.remove('active');
                 tab.classList.remove('active');
+            }
+        }
+        overlay.onclick = (e) => {
+            if (active) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                tab.classList.remove('active');
+                active = false;
             }
         }
     </script>

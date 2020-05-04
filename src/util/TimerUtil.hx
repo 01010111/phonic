@@ -17,12 +17,15 @@ class TimerUtil {
     public static function resume() if (timer != null) timer.unpause();
     public static function cancel() if (timer != null) timer.cancel();
 
+    static var last:Int;
     static function update(?dt:Float) {
         if (timer == null || !timer.active) return;
         Pomodoro.timer_text.value = parse_remaining();
+        if (last != timer.get_remaining().round()) window.localStorage.setItem('timer_amt', Pomodoro.timer_text.value);
+        last = timer.get_remaining().round();
     }
 
-    static function parse_remaining() {
+    public static function parse_remaining() {
 		if (timer == null) return '';
 		var t = timer.get_remaining().round();
 		var min = (t/60).floor();
