@@ -1,34 +1,30 @@
 [
     {
-        "src":"audio/rainfall.mp3",
-        "title":"Soothing Rainfall"
+        "src":"audio/piano.mp3",
+        "title":"Piano"
     },
     {
         "src":"audio/stream.mp3",
-        "title":"Relaxing Stream"
+        "title":"Stream"
     },
     {
-        "src":"audio/birds.mp3",
-        "title":"Happy Spring Birds"
-    },
-    {
-        "src":"audio/thunder.mp3",
-        "title":"Calm Thunderstorm"
+        "src":"audio/forest.mp3",
+        "title":"Forest"
     },
     {
         "src":"audio/beach.mp3",
-        "title":"Relaxing Summer Beach"
+        "title":"Beach"
     },
     {
-        "src":"audio/laundry.mp3",
-        "title":"Soothing Laundry Room"
+        "src":"audio/rain.mp3",
+        "title":"Rain"
     },
     {
-        "src":"audio/sound_bowl.mp3",
-        "title":"Meditative Sound Bowl"
+        "src":"audio/tracks.mp3",
+        "title":"Tracks"
     },
     {
-        "src":"audio/piano.mp3",
-        "title":"Mellow Ambient Piano"
+        "src":"audio/air.mp3",
+        "title":"Air"
     }
 ]
