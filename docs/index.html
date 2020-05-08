@@ -1,107 +1,112 @@
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        * {
-            transition-duration: 500ms;
-            transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-        }
-        body {
-            background-image: url('images/bg.png');
-            background-repeat: repeat-x;
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
-        }
-        .bob {
-            width: 100vw;
-            margin: 0 auto;
-        }
-        .bob img {
-            display: block;
-            margin: 0 auto;
-        }
-        .overlay {
-            position:absolute;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            opacity: 0;
-        }
-        .overlay.active {
-            opacity: 0.75;
-        }
-        .sidebar iframe{
-            position: absolute;
-            left: -240px;
-            top: 40px;
-            width: 240px;
-            height: calc(100vh - 40px);
-        }
-        .sidebar.active iframe {
-            left: 0;
-        }
-        .tab {
-            position: absolute;
-            left: 0;
-            bottom: 32px;
-            background: #028;
-            width: 32px;
-            height: 32px;
-            border-radius: 0 32px 32px 0;
-        }
-        .tab.active {
-            left: 240px;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		* {
+			transition-duration: 500ms;
+			transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+		}
+		body {
+			background-image: url('images/bg.png');
+			background-repeat: repeat-x;
+			padding: 0;
+			margin: 0;
+			overflow: hidden;
+		}
+		.bob {
+			width: 100vw;
+			margin: 0 auto;
+		}
+		.bob img {
+			display: block;
+			margin: 0 auto;
+		}
+		.overlay {
+			position:absolute;
+			top: 0;
+			width: 100vw;
+			height: 100vh;
+			background: #000;
+			opacity: 0;
+		}
+		.overlay.active {
+			opacity: 0.75;
+		}
+		.sidebar iframe{
+			position: absolute;
+			left: -240px;
+			top: 40px;
+			width: 240px;
+			height: calc(100vh - 40px);
+		}
+		.sidebar.active iframe {
+			left: 0;
+		}
+		.tab {
+			position: absolute;
+			left: 0;
+			bottom: 32px;
+			background: #028;
+			width: 32px;
+			height: 32px;
+			border-radius: 0 32px 32px 0;
+		}
+		.tab.active {
+			left: 240px;
+		}
+	</style>
 </head>
 <body>
-    <div class='bob'>
-        <img src="images/bob.png"/>
-    </div>
-    <div class='overlay' id='overlay'></div>
-    <div class='sidebar' id='sidebar' >
-        <iframe src="app.html" frameborder="0" allow="autoplay"></iframe>
-    </div>
-    <div class='tab' id='tab'></div>
-    <script>
-        let active = false;
-        let sidebar = document.getElementById('sidebar');
-        let tab = document.getElementById('tab');
-        let overlay = document.getElementById('overlay');
-        tab.onclick = (e) => {
-            /*active = !active;
-            if (active) {
-                sidebar.classList.add('active');
-                overlay.classList.add('active');
-                tab.classList.add('active');
-            }
-            else {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                tab.classList.remove('active');
-            }
-        }
-        overlay.onclick = (e) => {
-            if (active) {
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                tab.classList.remove('active');
-                active = false;
-            }*/
-            window.open('app.html','targetWindow',
-                                   `toolbar=no,
-                                    location=no,
-                                    status=no,
-                                    menubar=no,
-                                    scrollbars=yes,
-                                    resizable=no,
-                                    width=320,
-                                    height=640`);
-        }
-    </script>
+	<div class='bob'>
+		<img src="images/bob.png"/>
+	</div>
+	<div class='overlay' id='overlay'></div>
+	<div class='sidebar' id='sidebar' >
+		<iframe src="app.html" frameborder="0" allow="autoplay"></iframe>
+	</div>
+	<div class='tab' id='tab'></div>
+	<script>
+		let active = false;
+		let sidebar = document.getElementById('sidebar');
+		let tab = document.getElementById('tab');
+		let overlay = document.getElementById('overlay');
+		tab.onclick = (e) => {
+			/*active = !active;
+			if (active) {
+				sidebar.classList.add('active');
+				overlay.classList.add('active');
+				tab.classList.add('active');
+			}
+			else {
+				sidebar.classList.remove('active');
+				overlay.classList.remove('active');
+				tab.classList.remove('active');
+			}
+		}
+		overlay.onclick = (e) => {
+			if (active) {
+				sidebar.classList.remove('active');
+				overlay.classList.remove('active');
+				tab.classList.remove('active');
+				active = false;
+			}*/
+			window.open(
+				'app.html',
+				'targetWindow',
+				`
+					width=320,
+					height=640
+					resizable=no,
+					toolbar=no,
+					location=no,
+					status=no,
+					menubar=no,
+					scrollbars=yes,
+				`
+			);
+		}
+	</script>
 </body>
 </html>
