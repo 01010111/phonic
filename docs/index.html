@@ -73,7 +73,7 @@
         let tab = document.getElementById('tab');
         let overlay = document.getElementById('overlay');
         tab.onclick = (e) => {
-            active = !active;
+            /*active = !active;
             if (active) {
                 sidebar.classList.add('active');
                 overlay.classList.add('active');
@@ -91,7 +91,16 @@
                 overlay.classList.remove('active');
                 tab.classList.remove('active');
                 active = false;
-            }
+            }*/
+            window.open('app.html','targetWindow',
+                                   `toolbar=no,
+                                    location=no,
+                                    status=no,
+                                    menubar=no,
+                                    scrollbars=yes,
+                                    resizable=no,
+                                    width=320,
+                                    height=640`);
         }
     </script>
 </body>
