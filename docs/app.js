@@ -110,10 +110,12 @@ Main.play = function(a,e) {
 		window.localStorage.setItem("active","false");
 		return;
 	};
-	window.localStorage.setItem("last","" + Main.audio.indexOf(a));
+	var idx = Main.audio.indexOf(a);
+	Main.last = idx;
+	window.localStorage.setItem("last","" + idx);
 	window.localStorage.setItem("active","true");
 	a.play().catch(function(e1) {
-		haxe_Log.trace(e1,{ fileName : "src/Main.hx", lineNumber : 87, className : "Main", methodName : "play"});
+		haxe_Log.trace(e1,{ fileName : "src/Main.hx", lineNumber : 89, className : "Main", methodName : "play"});
 		window.parent.addEventListener("click",Main.play_on_click);
 		return;
 	});
@@ -386,6 +388,18 @@ util_Pomodoro.init = function(v) {
 		util_Pomodoro.play_btn_click(e3);
 		return;
 	};
+	util_Pomodoro.timer_icon = window.document.getElementById("pomo-icon");
+	util_Pomodoro.timer_icon.onclick = function(e4) {
+		var cont = util_TimerUtil.get_active();
+		util_Pomodoro.pause();
+		util_Pomodoro.timer_text.value = "" + util_Pomodoro.last + ":00";
+		if(cont) {
+			util_Pomodoro.start();
+		} else {
+			util_Pomodoro.stop();
+		}
+		return;
+	};
 	util_Pomodoro.last = "" + v;
 };
 util_Pomodoro.check_persistence = function() {
@@ -397,27 +411,27 @@ util_Pomodoro.check_persistence = function() {
 	}
 };
 util_Pomodoro.on_focus = function(e) {
-	haxe_Log.trace("focus",{ fileName : "src/util/Pomodoro.hx", lineNumber : 35, className : "util.Pomodoro", methodName : "on_focus", customParams : [e]});
+	haxe_Log.trace("focus",{ fileName : "src/util/Pomodoro.hx", lineNumber : 44, className : "util.Pomodoro", methodName : "on_focus", customParams : [e]});
 	util_Pomodoro.pause();
 	util_TimerUtil.cancel();
 	util_Pomodoro.parse_input();
 };
 util_Pomodoro.on_input = function(e) {
-	haxe_Log.trace("input",{ fileName : "src/util/Pomodoro.hx", lineNumber : 42, className : "util.Pomodoro", methodName : "on_input", customParams : [e]});
+	haxe_Log.trace("input",{ fileName : "src/util/Pomodoro.hx", lineNumber : 51, className : "util.Pomodoro", methodName : "on_input", customParams : [e]});
 	util_Pomodoro.parse_input();
 };
 util_Pomodoro.parse_input = function() {
 	var n = Std.parseInt(util_Pomodoro.timer_text.value);
-	haxe_Log.trace(n,{ fileName : "src/util/Pomodoro.hx", lineNumber : 48, className : "util.Pomodoro", methodName : "parse_input"});
+	haxe_Log.trace(n,{ fileName : "src/util/Pomodoro.hx", lineNumber : 57, className : "util.Pomodoro", methodName : "parse_input"});
 	if(n == null && util_Pomodoro.timer_text.value.length == 0) {
 		util_Pomodoro.last = "0";
 	} else {
-		util_Pomodoro.last = "" + n;
+		util_Pomodoro.last = "" + Math.max(Math.min(n,720),0);
 	}
 	util_Pomodoro.timer_text.value = util_Pomodoro.last;
 };
 util_Pomodoro.on_blur = function(e) {
-	haxe_Log.trace("blur",{ fileName : "src/util/Pomodoro.hx", lineNumber : 55, className : "util.Pomodoro", methodName : "on_blur", customParams : [e]});
+	haxe_Log.trace("blur",{ fileName : "src/util/Pomodoro.hx", lineNumber : 64, className : "util.Pomodoro", methodName : "on_blur", customParams : [e]});
 	util_Pomodoro.timer_text.value = "" + util_Pomodoro.last + ":00";
 };
 util_Pomodoro.play_btn_click = function(e) {
@@ -440,9 +454,11 @@ util_Pomodoro.start = function() {
 	util_TimerUtil.start(t,util_Pomodoro.stop);
 	util_Pomodoro.play_btn.classList.add("active");
 	window.localStorage.setItem("timer_active","true");
+	Main.play_last();
 };
 util_Pomodoro.pause = function() {
 	util_TimerUtil.pause();
+	Main.stop();
 	util_Pomodoro.play_btn.classList.remove("active");
 	window.localStorage.setItem("timer_active","false");
 };
