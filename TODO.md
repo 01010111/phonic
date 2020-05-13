@@ -1,5 +1,5 @@
 - [ ] From Emily
-  - [ ] I don't care for that font (even though I know it's what we use on the BOB page and you were probably just being consistent). Is it Arial? Could we use the same font that used inside of the games? It feels softer to me and les condensed.
+  - [x] I don't care for that font (even though I know it's what we use on the BOB page and you were probably just being consistent). Is it Arial? Could we use the same font that used inside of the games? It feels softer to me and les condensed.
   - [x] I would choose for the box to be less long- so shorter vertically. 
   - [ ] I'd like to see some icons added for each sound for a visual piece
   - [x] I was confused by the Play icon for the timer being the same as the Play buttons for each sound. I was trying to play the sounds from the bottom, then figured out it was to start the timer. I'd suggest a different button here to be more clear that it's for the timer.
@@ -8,3 +8,4 @@
   - [x] bound to 12 hours (720)
   - [ ] check null display
   - [x] restart timer on icon press
+  - [x] Upload to S3

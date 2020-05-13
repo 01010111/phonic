@@ -10,7 +10,9 @@ class Main {
 	static var audio:Array<AudioElement> = [];
 	static var audio_divs:Array<DivElement> = [];
 	static var timer:Timer;
+	static var timer_default:Int = 25;
 	static var last = 0;
+	static var tracklist:Array<AudioData>;
 	
 	static var gradients = [
 		'linear-gradient(8deg, #1CB5E0 0%, #000851 100%)',
@@ -21,23 +23,28 @@ class Main {
 
 	static function main(){}
 	@:expose() static function init(?config:String) {
-		if (config != null) var config_object:ConfigObject = config.parse();
+		if (config != null) process_config(config.parse());
 		if (window.localStorage.getItem('last') != null) last = window.localStorage.getItem('last').parseInt();
 		tracklist_div = cast document.getElementById('tracklist');
 		'audio.json'.fetch(process_json);
 		util.UpdateManager.update(0);
 		util.Info.init();
 	}
+
+	static function process_config(config:ConfigObject) {
+		if (config.default_pomo_time != null) timer_default = config.default_pomo_time;
+		if (config.tracklist != null) tracklist = config.tracklist;
+	}
 	
 	static function process_json(audio_data:String) {
-		data = audio_data.parse();
+		data = tracklist == null ? audio_data.parse() : tracklist;
 		var id = 0;
 		for (a in data) tracklist_div.appendChild(get_sound(a.src, a.title, id++));
 		load();
 	}
 	
 	static function load() {
-		Pomodoro.init(45);
+		Pomodoro.init(timer_default);
 		
 		var info_state = window.localStorage.getItem('info_state');
 		var was_active = window.localStorage.getItem('active');
@@ -81,7 +88,9 @@ class Main {
 		active_audio = a;
 		active_audio_div = e;
 		a.onpause = () -> window.localStorage.setItem('active', 'false');
-		window.localStorage.setItem('last', '${audio.indexOf(a)}');
+		var idx = audio.indexOf(a);
+		last = idx;
+		window.localStorage.setItem('last', '$idx');
 		window.localStorage.setItem('active', 'true');
 		a.play().catchError((e) -> {
 			trace(e);

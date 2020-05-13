@@ -8,6 +8,7 @@ class Pomodoro {
 
 	public static var timer_text:InputElement;
 	public static var play_btn:DivElement;
+	public static var timer_icon:DivElement;
 	static var last:String;
 
 	public static function init(v:Int) {
@@ -19,7 +20,16 @@ class Pomodoro {
 		play_btn = cast document.getElementById('pomo-start');
 		play_btn.onclick = (e) -> play_btn_click(e);
 
+		timer_icon = cast document.getElementById('pomo-icon');
+		timer_icon.onclick = (e) -> {
+			var cont = TimerUtil.active;
+			pause();
+			timer_text.value = '$last:00';
+			cont ? start() : stop();
+		}
+
 		last = '$v';
+		timer_text.value = '$last:00';
 	}
 
 	public static function check_persistence() {
@@ -47,7 +57,7 @@ class Pomodoro {
 		var n = Std.parseInt(timer_text.value);
 		trace(n);
 		if (n == null && timer_text.value.length == 0) last = '0';
-		else last = '$n';
+		else last = '${n.min(720).max(0)}';
 		timer_text.value = last;
 	}
 
@@ -69,12 +79,14 @@ class Pomodoro {
 		TimerUtil.start(t, stop);
 		play_btn.classList.add('active');
 		window.localStorage.setItem('timer_active', 'true');
+		Main.play_last();
 	}
 
 	public static function pause() {
 		TimerUtil.pause();
 		play_btn.classList.remove('active');
 		window.localStorage.setItem('timer_active', 'false');
+		Main.stop();
 	}
 	
 	public static function stop() {

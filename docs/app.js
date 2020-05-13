@@ -42,7 +42,7 @@ Main.main = function() {
 };
 Main.init = $hx_exports["Main"]["init"] = function(config) {
 	if(config != null) {
-		JSON.parse(config);
+		Main.process_config(JSON.parse(config));
 	}
 	if(window.localStorage.getItem("last") != null) {
 		Main.last = Std.parseInt(window.localStorage.getItem("last"));
@@ -52,8 +52,16 @@ Main.init = $hx_exports["Main"]["init"] = function(config) {
 	util_UpdateManager.update(0);
 	util_Info.init();
 };
+Main.process_config = function(config) {
+	if(config.default_pomo_time != null) {
+		Main.timer_default = config.default_pomo_time;
+	}
+	if(config.tracklist != null) {
+		Main.tracklist = config.tracklist;
+	}
+};
 Main.process_json = function(audio_data) {
-	Main.data = JSON.parse(audio_data);
+	Main.data = Main.tracklist == null ? JSON.parse(audio_data) : Main.tracklist;
 	var id = 0;
 	var _g = 0;
 	var _g1 = Main.data;
@@ -65,7 +73,7 @@ Main.process_json = function(audio_data) {
 	Main.load();
 };
 Main.load = function() {
-	util_Pomodoro.init(45);
+	util_Pomodoro.init(Main.timer_default);
 	var info_state = window.localStorage.getItem("info_state");
 	var was_active = window.localStorage.getItem("active");
 	if(info_state == null) {
@@ -115,7 +123,7 @@ Main.play = function(a,e) {
 	window.localStorage.setItem("last","" + idx);
 	window.localStorage.setItem("active","true");
 	a.play().catch(function(e1) {
-		haxe_Log.trace(e1,{ fileName : "src/Main.hx", lineNumber : 89, className : "Main", methodName : "play"});
+		haxe_Log.trace(e1,{ fileName : "src/Main.hx", lineNumber : 96, className : "Main", methodName : "play"});
 		window.parent.addEventListener("click",Main.play_on_click);
 		return;
 	});
@@ -401,6 +409,7 @@ util_Pomodoro.init = function(v) {
 		return;
 	};
 	util_Pomodoro.last = "" + v;
+	util_Pomodoro.timer_text.value = "" + util_Pomodoro.last + ":00";
 };
 util_Pomodoro.check_persistence = function() {
 	var was_active = window.localStorage.getItem("timer_active");
@@ -411,18 +420,18 @@ util_Pomodoro.check_persistence = function() {
 	}
 };
 util_Pomodoro.on_focus = function(e) {
-	haxe_Log.trace("focus",{ fileName : "src/util/Pomodoro.hx", lineNumber : 44, className : "util.Pomodoro", methodName : "on_focus", customParams : [e]});
+	haxe_Log.trace("focus",{ fileName : "src/util/Pomodoro.hx", lineNumber : 45, className : "util.Pomodoro", methodName : "on_focus", customParams : [e]});
 	util_Pomodoro.pause();
 	util_TimerUtil.cancel();
 	util_Pomodoro.parse_input();
 };
 util_Pomodoro.on_input = function(e) {
-	haxe_Log.trace("input",{ fileName : "src/util/Pomodoro.hx", lineNumber : 51, className : "util.Pomodoro", methodName : "on_input", customParams : [e]});
+	haxe_Log.trace("input",{ fileName : "src/util/Pomodoro.hx", lineNumber : 52, className : "util.Pomodoro", methodName : "on_input", customParams : [e]});
 	util_Pomodoro.parse_input();
 };
 util_Pomodoro.parse_input = function() {
 	var n = Std.parseInt(util_Pomodoro.timer_text.value);
-	haxe_Log.trace(n,{ fileName : "src/util/Pomodoro.hx", lineNumber : 57, className : "util.Pomodoro", methodName : "parse_input"});
+	haxe_Log.trace(n,{ fileName : "src/util/Pomodoro.hx", lineNumber : 58, className : "util.Pomodoro", methodName : "parse_input"});
 	if(n == null && util_Pomodoro.timer_text.value.length == 0) {
 		util_Pomodoro.last = "0";
 	} else {
@@ -431,7 +440,7 @@ util_Pomodoro.parse_input = function() {
 	util_Pomodoro.timer_text.value = util_Pomodoro.last;
 };
 util_Pomodoro.on_blur = function(e) {
-	haxe_Log.trace("blur",{ fileName : "src/util/Pomodoro.hx", lineNumber : 64, className : "util.Pomodoro", methodName : "on_blur", customParams : [e]});
+	haxe_Log.trace("blur",{ fileName : "src/util/Pomodoro.hx", lineNumber : 65, className : "util.Pomodoro", methodName : "on_blur", customParams : [e]});
 	util_Pomodoro.timer_text.value = "" + util_Pomodoro.last + ":00";
 };
 util_Pomodoro.play_btn_click = function(e) {
@@ -458,9 +467,9 @@ util_Pomodoro.start = function() {
 };
 util_Pomodoro.pause = function() {
 	util_TimerUtil.pause();
-	Main.stop();
 	util_Pomodoro.play_btn.classList.remove("active");
 	window.localStorage.setItem("timer_active","false");
+	Main.stop();
 };
 util_Pomodoro.stop = function() {
 	util_TimerUtil.cancel();
@@ -4630,6 +4639,7 @@ Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function()
 js_Boot.__toStr = ({ }).toString;
 Main.audio = [];
 Main.audio_divs = [];
+Main.timer_default = 25;
 Main.last = 0;
 Main.gradients = ["linear-gradient(8deg, #1CB5E0 0%, #000851 100%)","linear-gradient(8deg, #9ebd13 0%, #008552 100%)","linear-gradient(8deg, #d53369 0%, #daae51 100%)","linear-gradient(8deg, #0700b8 0%, #00ff88 100%)"];
 util_UpdateManager.last = 0.0;
