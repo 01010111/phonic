@@ -68,7 +68,7 @@ Main.process_json = function(audio_data) {
 	while(_g < _g1.length) {
 		var a = _g1[_g];
 		++_g;
-		Main.tracklist_div.appendChild(Main.get_sound(a.src,a.title,id++));
+		Main.tracklist_div.appendChild(Main.get_sound(a.src,a.title,a.icon,id++));
 	}
 	Main.load();
 };
@@ -84,12 +84,12 @@ Main.load = function() {
 		util_Pomodoro.check_persistence();
 	}
 };
-Main.get_sound = function(src,title,id) {
+Main.get_sound = function(src,title,icon,id) {
 	var e = window.document.createElement("div");
 	var a = Main.get_audio_element(src);
 	e.appendChild(a);
 	e.classList.add("audio");
-	e.innerText = title;
+	e.innerHTML = "<i class=\"" + icon + "\"></i><p>" + title + "</p>";
 	e.onclick = function() {
 		if(!a.paused) {
 			Main.stop();

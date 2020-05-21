@@ -1,30 +1,37 @@
 [
     {
         "src":"audio/piano.mp3",
-        "title":"Piano"
+        "title":"Piano",
+        "icon":"fas fa-piano"
     },
     {
         "src":"audio/stream.mp3",
-        "title":"Stream"
+        "title":"Stream",
+        "icon":"fas fa-water"
     },
     {
         "src":"audio/forest.mp3",
-        "title":"Forest"
+        "title":"Forest",
+        "icon":"fas fa-tree"
     },
     {
         "src":"audio/beach.mp3",
-        "title":"Beach"
+        "title":"Beach",
+        "icon":"fas fa-umbrella-beach"
     },
     {
         "src":"audio/rain.mp3",
-        "title":"Rain"
+        "title":"Rain",
+        "icon":"fas fa-cloud"
     },
     {
         "src":"audio/tracks.mp3",
-        "title":"Tracks"
+        "title":"Tracks",
+        "icon":"fas fa-train"
     },
     {
         "src":"audio/air.mp3",
-        "title":"Air"
+        "title":"Air",
+        "icon":"fas fa-fan"
     }
 ]

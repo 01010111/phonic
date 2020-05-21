@@ -39,7 +39,7 @@ class Main {
 	static function process_json(audio_data:String) {
 		data = tracklist == null ? audio_data.parse() : tracklist;
 		var id = 0;
-		for (a in data) tracklist_div.appendChild(get_sound(a.src, a.title, id++));
+		for (a in data) tracklist_div.appendChild(get_sound(a.src, a.title, a.icon, id++));
 		load();
 	}
 	
@@ -56,12 +56,12 @@ class Main {
 		}
 	}
 
-	static function get_sound(src:String, title:String, id:Int) {
+	static function get_sound(src:String, title:String, icon:String, id:Int) {
 		var e = document.createDivElement();
 		var a = get_audio_element(src);
 		e.appendChild(a);
 		e.classList.add('audio');
-		e.innerText = title;
+		e.innerHTML = '<i class="$icon"></i><p>$title</p>';
 		e.onclick = () -> {
 			if (!a.paused) stop();
 			else {
@@ -120,6 +120,7 @@ class Main {
 typedef AudioData = {
 	src:String,
 	title:String,
+	icon:String,
 }
 
 typedef ConfigObject = {

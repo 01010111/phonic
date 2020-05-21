@@ -17,38 +17,43 @@ body {
 
 .audio.playing {
 	background-color: white;
-	background-image: url('images/play_black.png');
 	color: black;
+	fill: black;
 } 
 
 .audio.playing:hover {
 	background-color: white;
-	background-image: url('images/stop_black.png');
 	color: black;
 }
 
 .audio {
 	background-color: rgba(0, 0, 0, 0.25);
-	background-position-x: 8px;
-	background-position-y: center;
-	background-size: 24px;
-	background-repeat: no-repeat;
-	color: white;
-	margin: 8px 0;
-	border-radius: 12px;
-	height: 24px;
-	display: flex;
+    color: white;
+    margin: 6px;
+    border-radius: 8px;
+    height: 80px;
+    width: 80px;
+	display: inline-flex;
 	align-items: center;
-	padding-left: 32px;
+	flex-direction: column;
+}
+
+.audio p {
+	margin: 10px 0;
+}
+
+.audio i {
+	margin: 16px 0 0 0;
+	font-size: 32px;
 }
 
 .audio:hover {
 	background-color: rgba(0, 0, 0, 0.5);
-	background-image: url('images/play_white.png');
 }
 
 .tracklist {
-	margin: 32px 24px;
+	margin: 16px calc((50vw - 138px));
+	width: 288px;
 }
 
 .pomodoro {

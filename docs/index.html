@@ -23,38 +23,30 @@
 			display: block;
 			margin: 0 auto;
 		}
-		.overlay {
-			position:absolute;
-			top: 0;
-			width: 100vw;
-			height: 100vh;
-			background: #000;
-			opacity: 0;
-		}
-		.overlay.active {
-			opacity: 0.75;
-		}
-		.sidebar iframe{
-			position: absolute;
-			left: -240px;
-			top: 40px;
-			width: 240px;
-			height: calc(100vh - 40px);
-		}
-		.sidebar.active iframe {
-			left: 0;
-		}
 		.tab {
 			position: absolute;
-			left: 0;
-			bottom: 32px;
-			background: #028;
-			width: 32px;
-			height: 32px;
-			border-radius: 0 32px 32px 0;
+			top: 40px;
+			right: calc(50vw - 780px + 32px);
+			width: 192px;
+			background-color: rgb(0, 0, 64);
+			color: white;
+			padding: 16px 32px;
+			font-family: 'Roboto', Arial, Helvetica, sans-serif;
+			font-size: 14px;
+			letter-spacing: 0.5px;
+			border-radius: 0 0 8px 8px;
 		}
-		.tab.active {
-			left: 240px;
+		.tab ul {
+			margin: 0;
+			padding-inline-start: 0;
+		}
+		.tab li {
+			list-style-type: none;
+			cursor: pointer;
+			margin: 12px 0;
+		}
+		.tab li:hover {
+			margin-left: 4px;
 		}
 	</style>
 </head>
@@ -62,42 +54,14 @@
 	<div class='bob'>
 		<img src="images/bob.png"/>
 	</div>
-	<div class='overlay' id='overlay'></div>
-	<div class='sidebar' id='sidebar' >
-		<!--iframe src="app.html" frameborder="0" allow="autoplay"></iframe-->
-	</div>
-	<div class='tab' id='tab'></div>
-	<script>
-		let active = false;
-		let sidebar = document.getElementById('sidebar');
-		let tab = document.getElementById('tab');
-		let overlay = document.getElementById('overlay');
-		tab.onclick = (e) => {
-			/*active = !active;
-			if (active) {
-				sidebar.classList.add('active');
-				overlay.classList.add('active');
-				tab.classList.add('active');
-			}
-			else {
-				sidebar.classList.remove('active');
-				overlay.classList.remove('active');
-				tab.classList.remove('active');
-			}
-		}
-		overlay.onclick = (e) => {
-			if (active) {
-				sidebar.classList.remove('active');
-				overlay.classList.remove('active');
-				tab.classList.remove('active');
-				active = false;
-			}*/
-			window.open(
+	<div class='tab' id='tab'>
+		<ul>
+			<li onclick="window.open(
 				'app.html',
 				'targetWindow',
 				`
 					width=320,
-					height=500,
+					height=416,
 					resizable=no,
 					toolbar=no,
 					location=no,
@@ -105,8 +69,10 @@
 					menubar=no,
 					scrollbars=yes,
 				`
-			);
-		}
-	</script>
+			);">Background Noise</li>
+			<li>Breathing Exercise</li>
+			<li>BOBcasts</li>
+		</ul>
+	</div>
 </body>
 </html>
