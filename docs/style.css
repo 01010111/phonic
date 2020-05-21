@@ -52,8 +52,11 @@ body {
 }
 
 .tracklist {
-	margin: 16px calc((50vw - 138px));
+	margin: 16px auto;
 	width: 288px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 .pomodoro {
