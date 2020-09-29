@@ -13,6 +13,7 @@ body {
 	transition-duration: 2000ms;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 }
 
 .audio.playing {
@@ -134,15 +135,25 @@ body {
 }
 
 .info {
-	margin: 24px 16px 0 16px;
-	background-color: rgba(0, 0, 0, 0.5);
-	color: white;
-	padding: 16px;
-	border-radius: 8px;
+	background-color: grey;
+	background-image: url('images/bg1.png');
+	background-blend-mode: multiply;
+	background-size: 100vw 100vh;
+    color: white;
+    padding: 32px;
+    position: absolute;
+    bottom: 0;
+	top: 0;
+	width: calc(100vw - 64px);
+}
+
+.info p {
+	margin: 12px 0;
+	font-size: 14px;
 }
 
 .info-close {
-	position: absolute;
+	/*position: absolute;
 	top: 16px;
 	right: 8px;
 	width: 16px;
@@ -151,9 +162,21 @@ body {
 	color: white;
 	background-color: black;
 	text-align: center;
+	cursor: pointer;*/
 	cursor: pointer;
+	text-align: center;
+	background-color: white;
+	width: 75%;
+	color: black;
+	margin: 24px auto;
+	padding: 8px;
+	border-radius: 16px;
+	font-size: 16px;
+	font-weight: 800;
 }
 
 .hidden {
-	display: none;
+	/*display: none;*/
+	top: 100vh;
+	transition-duration: 400ms;
 }

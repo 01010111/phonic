@@ -96,6 +96,7 @@ class Main {
 			trace(e);
 			window.parent.addEventListener('click', play_on_click);
 		});
+		//if (!Pomodoro.play_btn.classList.contains('active')) Pomodoro.play_btn.classList.add('active');
 	}
 
 	static function play_on_click() {

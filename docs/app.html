@@ -3,17 +3,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <script src="app.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/13b52b4690.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 </head>
     <body onload="Main.init()">
-        <div id='info' class='info hidden'>
-            Did you know that listening to background noise while you work leads to a variety of cognitive benefits?<br/><br/>
-            Pick a preset below to start listening!
-            <div id='info-close' class='info-close'>x</div>
-        </div>
         <div id='tracklist' class='tracklist'></div>
         <div id='pomodoro' class='pomodoro'>
             <div class='pomo-container'>
@@ -21,6 +16,12 @@
                 <div class='timer'><input id='timer'></input></div>
                 <div id='pomo-start' class='pomo-start' alt='Play / Pause Timer'></div>
             </div>
+        </div>
+        <div id='info' class='info hidden'>
+            <p>Did you know that listening to background noise while you work leads to a variety of cognitive benefits?
+            <p>Click "Get Started", then click a preset to start listening!
+            <p>Use the timer at the bottom to automatically stop background noise after a period of time.
+            <div id='info-close' class='info-close'>Get Started</div>
         </div>
     </body>
 </html>
